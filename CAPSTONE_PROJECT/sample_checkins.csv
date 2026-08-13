@@ -1,0 +1,11 @@
+tourist_id,city,attraction,visit_date,visit_time,latitude,longitude,visit_duration,source
+T-MOCK-00001,Chennai,Marina Beach,2026-08-12,18:30,13.0475,80.2824,120,GPS
+T-MOCK-00002,Chennai,Kapaleeshwarar Temple,2026-08-12,17:15,13.0333,80.2694,90,Check-in
+T-MOCK-00003,Chennai,Fort St. George,2026-08-12,10:30,13.0792,80.2917,150,Travel App
+T-MOCK-00004,Bengaluru,Lalbagh Botanical Garden,2026-08-12,08:45,12.9507,77.5844,180,GPS
+T-MOCK-00005,Bengaluru,Bangalore Palace,2026-08-12,11:15,12.9988,77.5921,120,Check-in
+T-MOCK-00006,Mumbai,Gateway of India,2026-08-12,19:00,18.9220,72.8347,60,Travel App
+T-MOCK-00007,Mumbai,Marine Drive,2026-08-12,21:30,18.9431,72.8230,120,GPS
+T-MOCK-00008,Hyderabad,Charminar,2026-08-12,17:45,17.3616,78.4747,90,Check-in
+T-MOCK-00009,Delhi,Red Fort,2026-08-12,11:30,28.6562,77.2410,180,Travel App
+T-MOCK-00010,Pune,Shaniwar Wada,2026-08-12,10:15,18.5194,73.8553,120,GPS

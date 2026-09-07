@@ -30,22 +30,25 @@ window.TourPulseCharts = (function() {
             if (overviewChart) overviewChart.destroy();
             const colors = getThemePalette();
 
-            const labelText = flowData.chart_type === "daily" ? "Daily Total Check-ins" : "Hourly Check-in Count";
+            const labels = (flowData && flowData.labels) ? flowData.labels : [];
+            const values = (flowData && flowData.values) ? flowData.values : [];
+            const chartType = (flowData && flowData.chart_type) ? flowData.chart_type : "daily";
+            const labelText = chartType === "daily" ? "Daily Total Check-ins" : "Hourly Check-in Count";
 
             overviewChart = new Chart(ctx, {
                 type: "line",
                 data: {
-                    labels: flowData.labels,
+                    labels: labels,
                     datasets: [{
                         label: labelText,
-                        data: flowData.values,
+                        data: values,
                         borderColor: colors.primary,
                         backgroundColor: colors.primaryBg,
                         borderWidth: 2.5,
                         tension: 0.35,
                         fill: true,
                         pointBackgroundColor: colors.primary,
-                        pointRadius: flowData.chart_type === "daily" ? 3 : 2
+                        pointRadius: chartType === "daily" ? 3 : 2
                     }]
                 },
                 options: {

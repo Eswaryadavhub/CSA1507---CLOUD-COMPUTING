@@ -319,13 +319,23 @@ window.TourPulseApp = (function() {
     // ----------------- View 1: Overview -----------------
     async function renderOverview(filters) {
         try {
-            const kpis = await window.TourPulseAPI.getKPIs(filters);
-            document.getElementById("kpi-total-visits").innerText = kpis.total_visits.toLocaleString();
-            document.getElementById("kpi-active-locations").innerText = kpis.active_attractions;
-            document.getElementById("kpi-top-attraction").innerText = kpis.top_attraction;
-            document.getElementById("kpi-avg-crowd").innerText = `${kpis.avg_crowd_level_pct}%`;
-            document.getElementById("kpi-peak-hour").innerText = kpis.peak_visiting_hour;
-            document.getElementById("kpi-daily-average").innerText = kpis.daily_average_visitors.toLocaleString();
+            const elTotal = document.getElementById("kpi-total-visits");
+            if (elTotal) elTotal.innerText = kpis.total_visits != null ? kpis.total_visits.toLocaleString() : "0";
+            
+            const elActive = document.getElementById("kpi-active-locations");
+            if (elActive) elActive.innerText = kpis.active_attractions != null ? kpis.active_attractions : "0";
+            
+            const elTop = document.getElementById("kpi-top-attraction");
+            if (elTop) elTop.innerText = kpis.top_attraction || "N/A";
+            
+            const elAvgCrowd = document.getElementById("kpi-avg-crowd");
+            if (elAvgCrowd) elAvgCrowd.innerText = `${kpis.avg_crowd_level_pct || 0}%`;
+            
+            const elPeak = document.getElementById("kpi-peak-hour");
+            if (elPeak) elPeak.innerText = kpis.peak_visiting_hour || "N/A";
+            
+            const elDailyAvg = document.getElementById("kpi-daily-average") || document.getElementById("kpi-predicted-visitors");
+            if (elDailyAvg) elDailyAvg.innerText = kpis.daily_average_visitors != null ? kpis.daily_average_visitors.toLocaleString() : "-";
             
             const crowdWarningEl = document.getElementById("kpi-high-crowd-warning");
             if (crowdWarningEl) {
@@ -340,14 +350,16 @@ window.TourPulseApp = (function() {
             const overlay = document.getElementById("chart-loading-overlay");
             if (overlay) overlay.style.display = "none";
             const flowData = await window.TourPulseAPI.getTouristFlow(filters);
-            window.TourPulseCharts.renderOverviewChart("overview-trend-chart", flowData);
+            if (window.TourPulseCharts && window.TourPulseCharts.renderOverviewChart) {
+                window.TourPulseCharts.renderOverviewChart("overview-trend-chart", flowData);
+            }
 
             // Popularity progress bars
             const popList = await window.TourPulseAPI.getPopularity(state.city);
             const popContainer = document.getElementById("overview-popularity-list");
             if (popContainer) {
-                if (popList.length === 0) {
-                    popContainer.innerHTML = `<div style="color:var(--text-secondary); text-align:center; padding:1.5rem;">No data matching filters.</div>`;
+                if (!popList || popList.length === 0) {
+                    popContainer.innerHTML = `<div style="color:var(--text-secondary); text-align:center; padding:1.5rem;">No tourist-flow data available for this selection.</div>`;
                 } else {
                     popContainer.innerHTML = popList.slice(0, 5).map(item => {
                         let barColor = "var(--primary)";

@@ -6,9 +6,9 @@
 -- ==============================================================================
 
 PROMPT Seeding Users with Secure bcrypt Password Hashes...
-INSERT INTO USERS (full_name, email, password_hash, role) VALUES ('System Administrator', 'admin@tourpulse.com', '$2b$12$vBFo6J.hvvNrU7lHD3E7gOe7cUeDUeSq9fGPy/6aUCljUbdYCDwwy', 'admin');
-INSERT INTO USERS (full_name, email, password_hash, role) VALUES ('Senior Tourism Analyst', 'analyst@tourpulse.com', '$2b$12$8QtOUl6kvNDKVYsT6E3eEebntM8fHf/gzdj3YbpY9FqBuX60RDD4y', 'analyst');
-INSERT INTO USERS (full_name, email, password_hash, role) VALUES ('Registered Visitor', 'tourist@tourpulse.com', '$2b$12$FrosNmZDUOuJ6nqVcOWy0.Wv5M8pPW4XV/V3RdlxICbNNQtlb5WeK', 'tourist');
+INSERT INTO USERS (full_name, email, password_hash, role) VALUES ('System Administrator', 'admin@tourpulse.com', '$2b$12$BpLo8w7t4lzIySlUBtwk4eAj69qa.F0O.laKc5PzeaFDEXbfBmujS', 'admin');
+INSERT INTO USERS (full_name, email, password_hash, role) VALUES ('Senior Tourism Analyst', 'analyst@tourpulse.com', '$2b$12$rlO2j3Iwdv3EFRAqXaXP7uJ/MJ9xu9mnb5MhQwH624vWDrSQrtrPC', 'analyst');
+INSERT INTO USERS (full_name, email, password_hash, role) VALUES ('Registered Visitor', 'tourist@tourpulse.com', '$2b$12$YYKyFyxZarzbv/AY5zDteupuy/DUQJvZSrtw6bs/yePmTizJpEZDC', 'tourist');
 
 PROMPT Seeding 32 Monitored Attractions across 6 Metropolitan Regions...
 

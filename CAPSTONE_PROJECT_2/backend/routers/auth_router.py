@@ -14,21 +14,21 @@ DEMO_USERS = {
         "user_id": 1,
         "full_name": "System Administrator",
         "email": "admin@tourpulse.com",
-        "password_hash": "$2b$12$vBFo6J.hvvNrU7lHD3E7gOe7cUeDUeSq9fGPy/6aUCljUbdYCDwwy",
+        "password_hash": "$2b$12$BpLo8w7t4lzIySlUBtwk4eAj69qa.F0O.laKc5PzeaFDEXbfBmujS",
         "role": "admin"
     },
     "analyst@tourpulse.com": {
         "user_id": 2,
         "full_name": "Senior Tourism Analyst",
         "email": "analyst@tourpulse.com",
-        "password_hash": "$2b$12$8QtOUl6kvNDKVYsT6E3eEebntM8fHf/gzdj3YbpY9FqBuX60RDD4y",
+        "password_hash": "$2b$12$rlO2j3Iwdv3EFRAqXaXP7uJ/MJ9xu9mnb5MhQwH624vWDrSQrtrPC",
         "role": "analyst"
     },
     "tourist@tourpulse.com": {
         "user_id": 3,
         "full_name": "Registered Visitor",
         "email": "tourist@tourpulse.com",
-        "password_hash": "$2b$12$FrosNmZDUOuJ6nqVcOWy0.Wv5M8pPW4XV/V3RdlxICbNNQtlb5WeK",
+        "password_hash": "$2b$12$YYKyFyxZarzbv/AY5zDteupuy/DUQJvZSrtw6bs/yePmTizJpEZDC",
         "role": "tourist"
     }
 }

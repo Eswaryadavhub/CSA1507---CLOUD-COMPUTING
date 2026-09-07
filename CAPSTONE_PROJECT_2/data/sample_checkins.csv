@@ -1,0 +1,17 @@
+tourist_code,attraction_name,city,timestamp,latitude,longitude,source,visit_duration
+T0001,Marina Beach,Chennai,2026-09-06 10:15:00,13.047500,80.282400,gps,65
+T0002,Kapaleeshwarar Temple,Chennai,2026-09-06 11:30:00,13.033400,80.269900,travel_app,45
+T0003,Cubbon Park,Bengaluru,2026-09-06 16:00:00,12.976400,77.592900,gps,90
+T0004,Lalbagh Botanical Garden,Bengaluru,2026-09-06 17:15:00,12.950700,77.584800,checkin,120
+T0005,Charminar,Hyderabad,2026-09-06 14:00:00,17.361600,78.474700,gps,50
+T0006,Golconda Fort,Hyderabad,2026-09-06 15:45:00,17.383300,78.401100,travel_app,110
+T0007,Gateway of India,Mumbai,2026-09-06 18:00:00,18.922000,72.834700,gps,80
+T0008,Marine Drive,Mumbai,2026-09-06 19:30:00,18.943200,72.823000,checkin,75
+T0009,Red Fort,Delhi,2026-09-06 10:00:00,28.656200,77.241000,gps,105
+T0010,India Gate,Delhi,2026-09-06 18:30:00,28.612900,77.229500,travel_app,60
+T0011,Shaniwar Wada,Pune,2026-09-06 16:20:00,18.519600,73.855300,gps,55
+T0012,Aga Khan Palace,Pune,2026-09-06 11:00:00,18.552300,73.901500,checkin,90
+T0001,Marina Beach,Chennai,2026-09-06 10:15:00,13.047500,80.282400,gps,65
+T0001,Marina Beach,Chennai,2026-09-06 10:25:00,13.048100,80.282900,gps,20
+T0099,Nonexistent Landmark,Chennai,2026-09-06 12:00:00,13.050000,80.280000,gps,60
+T0100,Marina Beach,Chennai,2026-09-06 14:00:00,999.000000,80.280000,gps,60

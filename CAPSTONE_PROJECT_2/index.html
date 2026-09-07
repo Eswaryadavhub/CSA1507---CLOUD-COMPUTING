@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TourPulse - Cloud-Based Tourist Flow and Attraction Analytics</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Leaflet.js Mapping Library -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- Chart.js Visualization Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- ==========================================================================
+       TOP STATUS BAR (Clean & Uncluttered)
+       ========================================================================== -->
+    <header class="viva-status-bar" id="viva-status-bar">
+        <div class="viva-items">
+            <span class="viva-item">
+                <strong style="color:var(--accent);">TourPulse</strong> | Cloud-Based Tourist Flow & Attraction Analytics
+            </span>
+            <span class="viva-item">
+                Database: <span class="viva-badge" id="viva-db-status" style="background:rgba(239,68,68,0.15); color:#ef4444; border:1px solid rgba(239,68,68,0.3);">Oracle Database ● Not Connected</span>
+            </span>
+            <span class="viva-item">
+                Mode: <span class="viva-badge local" id="viva-app-mode">LOCAL / GCP READY</span>
+            </span>
+        </div>
+        <div class="viva-items">
+            <span class="viva-item">
+                User: <strong id="viva-user-role" style="color:var(--accent);">GUEST / DEMO</strong>
+            </span>
+        </div>
+    </header>
+
+    <div class="dataset-disclaimer-bar" id="dataset-disclaimer-bar">
+        <span>ℹ️</span>
+        <span id="dataset-disclaimer-text">
+            Dataset Note: Synthetic demonstration dataset created for academic evaluation. Does not contain real personal tracking data.
+        </span>
+    </div>
+
+    <!-- ==========================================================================
+       LANDING PAGE (ACADEMIC HERO & FOUR MODULES OVERVIEW)
+       ========================================================================== -->
+    <div id="landing-page">
+        <div class="landing-container">
+            <div class="landing-header">
+                <div class="landing-logo">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent);"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>
+                    <span>TOURPULSE</span>
+                </div>
+                <div>
+                    <span class="landing-academic-tag">Cloud Computing & Big Data Analytics Capstone</span>
+                </div>
+                <h1 class="landing-title">Cloud-Based Tourist Flow and Attraction Analytics</h1>
+                <p class="landing-subtitle">
+                    An end-to-end cloud and big data analytics platform that ingests multi-source tourist telemetry, stores operational records in Oracle Database, executes scalable analytics, and forecasts crowd demand to prevent urban congestion.
+                </p>
+                <div class="landing-actions">
+                    <button class="btn-primary" onclick="window.TourPulseApp.enterDashboard('overview')">
+                        Launch Analytics Dashboard
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </button>
+                    <button class="btn-secondary" onclick="window.TourPulseApp.enterDashboard('live-map')">
+                        🗺️ Geospatial Map
+                    </button>
+                    <button class="btn-secondary" onclick="window.TourPulseApp.enterDashboard('architecture')">
+                        ☁️ Cloud Architecture
+                    </button>
+                    <button class="btn-secondary" onclick="window.TourPulseApp.openModal('modal-auth')">
+                        🔑 Roles & Sign In
+                    </button>
+                </div>
+            </div>
+
+            <!-- Problem & Solution Matrix -->
+            <div class="problem-solution-grid">
+                <div class="academic-card">
+                    <h3>⚠️ Problem Statement</h3>
+                    <ul>
+                        <li><strong>Data Scalability:</strong> Urban tourism generates massive telemetry streams (GPS fixes, app pings, check-in logs) that swamp traditional single-node databases.</li>
+                        <li><strong>Geospatial Outliers:</strong> Raw telemetry is prone to coordinate drift, duplicate pings, and boundary mismatches outside registered attractions.</li>
+                        <li><strong>Bottlenecks & Overcrowding:</strong> Tourism authorities lack predictive foresight, causing pedestrian gridlocks, parking crunches, and safety risks.</li>
+                        <li><strong>Manual Resource Planning:</strong> Sanitation, transit, and security resources cannot be effectively allocated without forecasting models.</li>
+                    </ul>
+                </div>
+                <div class="academic-card">
+                    <h3>💡 Cloud & Big Data Solution</h3>
+                    <ul>
+                        <li><strong>Decoupled Architecture:</strong> Raw data lands in Cloud Storage before distributed processing via Dataproc / PySpark clusters.</li>
+                        <li><strong>Operational Database:</strong> Clean application records reside in Oracle Database for relational integrity and dashboard operations.</li>
+                        <li><strong>Analytical Warehouse:</strong> Processed records populate Google BigQuery for low-latency SQL analytics, heatmaps, and routing analysis.</li>
+                        <li><strong>Machine Learning:</strong> BigQuery ML / Scikit-learn models predict crowd surges 7–14 days in advance to divert traffic to alternate sites.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Four Core Capstone Modules -->
+            <h2 class="section-heading">Four Core Project Modules</h2>
+            <div class="modules-grid">
+                <div class="module-box" onclick="window.TourPulseApp.enterDashboard('data-upload')" style="cursor:pointer;">
+                    <span class="module-num-tag">Module 1</span>
+                    <h4>Data Collection & Ingestion</h4>
+                    <p>Ingests multi-source tourist movement data including GPS trackers, mobile travel application APIs, and manual social check-ins with batch schema validation.</p>
+                    <div class="module-tech-list">Tech: GCS, REST APIs, CSV Validator</div>
+                </div>
+                <div class="module-box" onclick="window.TourPulseApp.enterDashboard('architecture')" style="cursor:pointer;">
+                    <span class="module-num-tag">Module 2</span>
+                    <h4>Data Processing & Cleaning</h4>
+                    <p>Applies spatial coordinate bounding box filtering, removes duplicate check-ins, and aggregates telemetry via MapReduce algorithms.</p>
+                    <div class="module-tech-list">Tech: Dataproc, PySpark MapReduce</div>
+                </div>
+                <div class="module-box" onclick="window.TourPulseApp.enterDashboard('tourist-flow')" style="cursor:pointer;">
+                    <span class="module-num-tag">Module 3</span>
+                    <h4>Flow & Attraction Analytics</h4>
+                    <p>Computes attraction popularity indices, peak visiting hours, daily visitor intensity curves, 7x4 day-slot heatmaps, and multi-hop origin-destination corridors.</p>
+                    <div class="module-tech-list">Tech: Oracle SQL, BigQuery, Leaflet, Chart.js</div>
+                </div>
+                <div class="module-box" onclick="window.TourPulseApp.enterDashboard('prediction')" style="cursor:pointer;">
+                    <span class="module-num-tag">Module 4</span>
+                    <h4>Prediction & Recommendation</h4>
+                    <p>Forecasts future visitor counts, evaluates congestion risk levels against site capacities, and recommends alternative low-density cultural destinations.</p>
+                    <div class="module-tech-list">Tech: BigQuery ML / Scikit-learn</div>
+                </div>
+            </div>
+
+            <!-- Architecture Flow Preview -->
+            <div class="arch-preview-box">
+                <h3 style="font-size: 1.1rem; color: var(--text-primary);">Academic Cloud Data Pipeline</h3>
+                <div class="arch-steps-row">
+                    <div class="arch-step-pill">1. Telemetry Feeds<span>GPS / App / Check-in</span></div>
+                    <div class="arch-arrow">➔</div>
+                    <div class="arch-step-pill">2. Cloud Storage<span>gs://tourpulse-raw</span></div>
+                    <div class="arch-arrow">➔</div>
+                    <div class="arch-step-pill">3. Dataproc Cluster<span>MapReduce / PySpark</span></div>
+                    <div class="arch-arrow">➔</div>
+                    <div class="arch-step-pill">4. BigQuery / Oracle<span>Operational & Analytics</span></div>
+                    <div class="arch-arrow">➔</div>
+                    <div class="arch-step-pill">5. Machine Learning<span>ARIMA_PLUS / RF</span></div>
+                    <div class="arch-arrow">➔</div>
+                    <div class="arch-step-pill">6. Visual Dashboard<span>FastAPI + SPA Interface</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+       APPLICATION WORKSPACE LAYOUT (SIDEBAR & WORKSPACE)
+       ========================================================================== -->
+    <div id="app-container" style="display: none;">
+        
+        <!-- SIDEBAR (Strictly 11 items, NO MapReduce Pipeline) -->
+        <aside class="sidebar" id="sidebar-menu">
+            <div class="sidebar-brand">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent);"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>
+                Tour<span>Pulse</span>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li id="menu-overview" class="active"><a onclick="window.TourPulseApp.navigateTo('overview')">📊 Dashboard</a></li>
+                <li id="menu-live-map"><a onclick="window.TourPulseApp.navigateTo('live-map')">🗺️ Live Map</a></li>
+                <li id="menu-attractions"><a onclick="window.TourPulseApp.navigateTo('attractions')">🏛️ Attractions</a></li>
+                <li id="menu-tourist-flow"><a onclick="window.TourPulseApp.navigateTo('tourist-flow')">📈 Tourist Flow</a></li>
+                <li id="menu-prediction"><a onclick="window.TourPulseApp.navigateTo('prediction')">🤖 Predictions</a></li>
+                <li id="menu-recommendations"><a onclick="window.TourPulseApp.navigateTo('recommendations')">💡 Recommendations</a></li>
+                <li id="menu-data-upload"><a onclick="window.TourPulseApp.navigateTo('data-upload')">📤 Data Ingestion</a></li>
+                <li id="menu-reports"><a onclick="window.TourPulseApp.navigateTo('reports')">📁 Reports</a></li>
+                <li id="menu-architecture"><a onclick="window.TourPulseApp.navigateTo('architecture')">☁️ Cloud Architecture</a></li>
+                <li id="menu-project-info"><a onclick="window.TourPulseApp.navigateTo('project-info')">🎓 Project Information</a></li>
+                <li id="menu-settings"><a onclick="window.TourPulseApp.navigateTo('settings')">⚙️ Settings</a></li>
+            </ul>
+
+            <!-- Theme Toggle & Return to Landing -->
+            <div style="padding: 0.6rem 1.25rem; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border-color); font-size: 0.78rem; color: var(--text-secondary);">
+                <span>Interface Theme</span>
+                <button onclick="window.TourPulseApp.toggleTheme()" style="background: none; border: 1px solid var(--border-color); border-radius: 4px; padding: 0.2rem 0.5rem; color: var(--text-primary); cursor: pointer; font-size: 0.75rem;">🌓 Toggle</button>
+            </div>
+
+            <div style="padding: 0.5rem 1.25rem; border-top: 1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center;">
+                <button onclick="document.getElementById('app-container').style.display='none'; document.getElementById('landing-page').style.display='block';" style="background:none; border:none; color:var(--accent); font-size:0.75rem; cursor:pointer; font-weight:600;">
+                    ← Landing Page
+                </button>
+                <button id="btn-nav-login" class="btn-secondary" style="padding:0.25rem 0.6rem; font-size:0.75rem;" onclick="window.TourPulseApp.openModal('modal-auth')">Sign In</button>
+                <button id="btn-nav-logout" class="btn-secondary" style="padding:0.25rem 0.6rem; font-size:0.75rem; display:none;" onclick="window.TourPulseApp.logout()">Logout</button>
+            </div>
+
+            <!-- Profile Widget -->
+            <div class="sidebar-profile" id="sidebar-profile" style="display:none;">
+                <!-- Populated dynamically via JS -->
+            </div>
+        </aside>
+
+        <!-- MAIN WORKSPACE -->
+        <main class="workspace">
+            
+            <!-- TOP NAVBAR (Filters & Search) -->
+            <header class="top-navbar">
+                <div class="nav-left">
+                    <button class="btn-secondary" style="padding:0.35rem 0.6rem; font-size:0.9rem;" onclick="window.TourPulseApp.toggleSidebar()">☰</button>
+                    <div class="page-title-area">
+                        <h2 class="page-title" id="view-page-title">Tourism Analytics Dashboard</h2>
+                        <span class="page-subtitle" id="view-page-subtitle">Real-time tourist check-in intelligence and capacity monitoring.</span>
+                    </div>
+                </div>
+                
+                <div class="nav-filters">
+                    <!-- Oracle Database Status Indicator -->
+                    <div id="oracle-status-pill" class="oracle-status-pill disconnected" title="Oracle Database Status">
+                        <span class="oracle-dot"></span>
+                        <span id="oracle-status-text">Oracle DB: Checking...</span>
+                    </div>
+
+                    <!-- City Selector -->
+                    <select class="filter-select" id="city-selector" onchange="window.TourPulseApp.handleFilterChange()">
+                        <option value="All" selected>All Cities</option>
+                    </select>
+
+                    <!-- Date Range Presets -->
+                    <select class="filter-select" id="date-range-preset" onchange="window.TourPulseApp.handleFilterChange()">
+                        <option value="today">Today</option>
+                        <option value="yesterday">Yesterday</option>
+                        <option value="7days">Last 7 Days</option>
+                        <option value="30days" selected>Last 30 Days</option>
+                        <option value="custom">Custom Range</option>
+                    </select>
+
+                    <!-- Custom Date Range Inputs -->
+                    <div id="custom-date-inputs" style="display:none; gap:0.4rem; align-items:center;">
+                        <input type="date" class="filter-select" id="custom-start-date" onchange="window.TourPulseApp.handleFilterChange()">
+                        <span style="font-size:0.75rem; color:var(--text-secondary);">to</span>
+                        <input type="date" class="filter-select" id="custom-end-date" onchange="window.TourPulseApp.handleFilterChange()">
+                    </div>
+                </div>
+            </header>
+
+            <!-- DATABASE ERROR BANNER (Displayed when Oracle is disconnected) -->
+            <div id="db-error-banner" style="display:none; background:rgba(239,68,68,0.1); border-bottom:1px solid rgba(239,68,68,0.3); color:#ef4444; padding:0.6rem 1.5rem; font-size:0.82rem; align-items:center; justify-content:space-between;">
+                <div>
+                    <strong>⚠️ Oracle Database — Not Connected:</strong>
+                    <span id="db-error-text">Please verify ORACLE_USER, ORACLE_PASSWORD, and connection settings in .env.</span>
+                </div>
+                <button class="btn-secondary" style="padding:0.2rem 0.5rem; font-size:0.75rem; border-color:#ef4444; color:#ef4444;" onclick="window.TourPulseApp.navigateTo('settings')">
+                    Setup Diagnostics →
+                </button>
+            </div>
+
+            <!-- CONTENT SECTIONS WRAPPER -->
+            <div class="content-wrapper">
+                
+                <!-- ==========================================================
+                   1. DASHBOARD OVERVIEW VIEW
+                   ========================================================== -->
+                <section id="view-overview" class="view-section active">
+                    <!-- Top 6 KPI Cards Hierarchy -->
+                    <div class="kpi-grid">
+                        <div class="kpi-card">
+                            <div class="kpi-title">Total Tourist Visits</div>
+                            <div class="kpi-value" id="kpi-total-visits">-</div>
+                            <div class="kpi-footer">From verified check-in records</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-title">Active Attractions</div>
+                            <div class="kpi-value" id="kpi-active-locations">-</div>
+                            <div class="kpi-footer">Monitored urban landmarks</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-title">Most Visited Attraction</div>
+                            <div class="kpi-value" id="kpi-top-attraction" style="font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">-</div>
+                            <div class="kpi-footer">Highest visitor footfall</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-title">Average Crowd Level</div>
+                            <div class="kpi-value" id="kpi-avg-crowd">-%</div>
+                            <div class="kpi-footer">Cross-site capacity load</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-title">Peak Visiting Hour</div>
+                            <div class="kpi-value" id="kpi-peak-hour" style="font-size: 1.2rem;">-</div>
+                            <div class="kpi-footer">Critical arrival window</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-title">Predicted Visitors</div>
+                            <div class="kpi-value" id="kpi-predicted-visitors">-</div>
+                            <div class="kpi-footer" id="kpi-high-crowd-warning">
+                                <span style="color:var(--crowd-low);">✓ Stable Traffic Flow</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Charts Row -->
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3 class="card-title">📈 Tourist Flow Trend Curve</h3>
+                                <span style="font-size:0.75rem; color:var(--text-secondary);">Arrival volumes aggregated from Oracle Database</span>
+                            </div>
+                            <div style="height: 320px; position:relative;">
+                                <canvas id="overview-trend-chart"></canvas>
+                                <div id="chart-loading-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(9,17,36,0.7); align-items:center; justify-content:center;">
+                                    <div class="loading-spinner"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3 class="card-title">🏆 Top Attraction Popularity</h3>
+                                <span style="font-size:0.75rem; color:var(--text-secondary);">Relative volume & capacity load</span>
+                            </div>
+                            <div id="overview-popularity-list" style="display:flex; flex-direction:column; gap:1.15rem; margin-top:0.5rem;">
+                                <!-- Populated dynamically from Oracle -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================================
+                   2. LIVE GEOSPATIAL MAP VIEW
+                   ========================================================== -->
+                <section id="view-live-map" class="view-section">
+                    <div class="map-view-container">
+                        <div class="map-wrapper">
+                            <div id="map-element"></div>
+                            <div class="map-legend">
+                                <div class="legend-title">Crowd Density Index</div>
+                                <div class="legend-item"><span class="legend-color color-green"></span> Low Density (&lt; 50%)</div>
+                                <div class="legend-item"><span class="legend-color color-orange"></span> Moderate (50% – 80%)</div>
+                                <div class="legend-item"><span class="legend-color color-red"></span> High Congestion (&gt; 80%)</div>
+                                <div style="margin-top:0.4rem; padding-top:0.3rem; border-top:1px solid var(--border-color); color:var(--accent); font-size:0.7rem;">
+                                    Cyan Dashed: O-D Movement Routes
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="map-detail-panel">
+                            <div id="map-panel-placeholder" style="text-align:center; padding:3rem 1rem; color:var(--text-secondary);">
+                                <div style="font-size:2.5rem; margin-bottom:1rem;">🗺️</div>
+                                <h4 style="color:var(--text-primary); margin-bottom:0.5rem;">Geospatial Overlay & Capacity</h4>
+                                <p style="font-size:0.8rem; line-height:1.5;">
+                                    Click any marker pin to inspect verified visitor volume, capacity threshold, peak arrival hours, and telemetry data source breakdown.
+                                </p>
+                            </div>
+                            <div id="map-panel-content" style="display:none;">
+                                <!-- Populated dynamically on marker click -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================================
+                   3. ATTRACTION REGISTRY & MANAGEMENT VIEW
+                   ========================================================== -->
+                <section id="view-attractions" class="view-section">
+                    <div style="display:grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
+                        <div class="dashboard-card">
+                            <div class="card-header" style="flex-wrap:wrap; gap:0.75rem;">
+                                <div>
+                                    <h3 class="card-title">🏛️ Registered Destination Capacity Matrix</h3>
+                                    <span style="font-size:0.75rem; color:var(--text-secondary);">Active monitored cultural, historic, and leisure locations</span>
+                                </div>
+                                <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
+                                    <input type="text" id="attraction-search-input" class="form-control" placeholder="Search by name..." style="width:160px;" oninput="window.TourPulseApp.renderAttractionsView()">
+                                    <select id="attraction-cat-filter" class="form-control" onchange="window.TourPulseApp.renderAttractionsView()">
+                                        <option value="all">All Categories</option>
+                                        <option value="Historical">Historical</option>
+                                        <option value="Beach">Beach</option>
+                                        <option value="Park">Park / Nature</option>
+                                        <option value="Religious">Religious</option>
+                                        <option value="Monument">Monument</option>
+                                        <option value="Museum">Museum</option>
+                                    </select>
+                                    <select id="attraction-sort" class="form-control" onchange="window.TourPulseApp.renderAttractionsView()">
+                                        <option value="popularity">Sort: Most Popular</option>
+                                        <option value="visits">Sort: Total Visits</option>
+                                        <option value="name">Sort: Name (A-Z)</option>
+                                    </select>
+                                    <button class="btn-primary admin-only" style="padding:0.4rem 0.75rem; font-size:0.75rem;" onclick="window.TourPulseApp.openModal('modal-add-attraction')">
+                                        + Add Attraction
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Attraction Name</th>
+                                            <th>City</th>
+                                            <th>Category</th>
+                                            <th>Verified Visits</th>
+                                            <th>Popularity</th>
+                                            <th>Crowd Level</th>
+                                            <th>Capacity</th>
+                                            <th style="text-align:center;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="attraction-table-body">
+                                        <!-- Populated dynamically from Oracle -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1rem; padding-top:0.75rem; border-top:1px solid var(--border-color);">
+                                <span id="table-page-info" style="font-size:0.75rem; color:var(--text-secondary);">Showing 1 to 6 entries</span>
+                                <div style="display:flex; gap:0.5rem;">
+                                    <button id="btn-prev-page" class="btn-secondary" style="padding:0.25rem 0.6rem; font-size:0.75rem;" onclick="state.attractionPage--; window.TourPulseApp.renderAttractionsView();">Previous</button>
+                                    <button id="btn-next-page" class="btn-secondary" style="padding:0.25rem 0.6rem; font-size:0.75rem;" onclick="state.attractionPage++; window.TourPulseApp.renderAttractionsView();">Next</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Selected Attraction Drill-Down -->
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3 class="card-title">📊 Attraction Deep-Dive</h3>
+                            </div>
+                            <div id="attractions-detail-placeholder" style="text-align:center; padding:3rem 1rem; color:var(--text-secondary);">
+                                <p style="font-size:0.82rem;">Click any table row to view hourly visitor distribution and telemetry channel ratios.</p>
+                            </div>
+                            <div id="attractions-detail-content" style="display:none; flex-direction:column; gap:1rem;">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================================
+                   4. TOURIST FLOW & HEATMAP ANALYTICS VIEW
+                   ========================================================== -->
+                <section id="view-tourist-flow" class="view-section">
+                    <div style="display:grid; grid-template-columns: 2fr 1fr; gap:1.5rem; margin-bottom:1.5rem;">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3 class="card-title">🌊 Hourly & Daily Tourist Flow Intensity</h3>
+                                <span style="font-size:0.75rem; color:var(--text-secondary);">Calculated from Oracle Database records</span>
+                            </div>
+                            <div style="height: 280px;">
+                                <canvas id="flow-intensity-chart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3 class="card-title">🔄 Top Origin-Destination Corridors</h3>
+                                <span style="font-size:0.75rem; color:var(--text-secondary);">Multi-stop tourist routes</span>
+                            </div>
+                            <div id="flow-movement-list" style="display:flex; flex-direction:column; gap:0.6rem; max-height:280px; overflow-y:auto;">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 7x4 Weekly Density Heatmap Matrix -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">🗓️ Weekly Tourist Density Matrix (7 Days × 4 Time Slots)</h3>
+                                <span style="font-size:0.75rem; color:var(--text-secondary);">Arrival intensity across days of week and time periods</span>
+                            </div>
+                            <div style="font-size:0.7rem; color:var(--text-secondary);">
+                                Scale: Blue (Low) ➔ Green ➔ Amber ➔ Red (Peak Congestion)
+                            </div>
+                        </div>
+                        <div class="heatmap-container" style="margin-top:0.75rem;">
+                            <div id="flow-heatmap-grid">
+                                <!-- Populated dynamically via JS -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================================
+                   5. ML DEMAND FORECASTING VIEW
+                   ========================================================== -->
+                <section id="view-prediction" class="view-section">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem;">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3 class="card-title">🤖 Predictive Visitor Demand Engine</h3>
+                                <span style="font-size:0.75rem; color:var(--text-secondary);">Machine Learning Demand Forecaster (BigQuery ML ARIMA_PLUS Parity)</span>
+                            </div>
+                            <form onsubmit="event.preventDefault(); window.TourPulseApp.runPrediction();" style="display:flex; flex-direction:column; gap:1rem; margin-top:0.5rem;">
+                                <div class="form-group">
+                                    <label style="font-size:0.8rem; font-weight:600; display:block; margin-bottom:0.35rem;">Select Target Attraction</label>
+                                    <select id="predict-attraction" class="form-control" style="width:100%;">
+                                        <!-- Populated dynamically from Oracle -->
+                                    </select>
+                                </div>
+
+                                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+                                    <div class="form-group">
+                                        <label style="font-size:0.8rem; font-weight:600; display:block; margin-bottom:0.35rem;">Target Date</label>
+                                        <input type="date" id="predict-date" class="form-control" style="width:100%;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="font-size:0.8rem; font-weight:600; display:block; margin-bottom:0.35rem;">Target Time Window</label>
+                                        <select id="predict-time" class="form-control" style="width:100%;">
+                                            <option value="09:00">09:00 AM (Morning Open)</option>
+                                            <option value="11:00">11:00 AM (Midday Rush)</option>
+                                            <option value="14:00">02:00 PM (Afternoon)</option>
+                                            <option value="17:00" selected>05:00 PM (Evening Peak)</option>
+                                            <option value="19:00">07:00 PM (Night Rush)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn-primary" style="align-self:flex-start; margin-top:0.5rem;">
+                                    Generate Forecast
+                                </button>
+                            </form>
+
+                            <!-- Prediction Outcome Panel -->
+                            <div id="prediction-outcome" style="display:none; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1.5rem; padding-top:1.25rem; border-top:1px solid var(--border-color);">
+                                <div style="background:var(--bg-main); padding:0.85rem; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+                                    <span style="font-size:0.7rem; color:var(--text-secondary); text-transform:uppercase;">Model Applied</span>
+                                    <div style="font-size:0.85rem; font-weight:700; color:var(--accent);" id="pred-model-label">RandomForestRegressor</div>
+                                </div>
+                                <div style="background:var(--bg-main); padding:0.85rem; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+                                    <span style="font-size:0.7rem; color:var(--text-secondary); text-transform:uppercase;">Predicted Volume</span>
+                                    <div style="font-size:1.4rem; font-weight:800; color:var(--text-primary);" id="pred-visitors">0</div>
+                                </div>
+                                <div style="background:var(--bg-main); padding:0.85rem; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+                                    <span style="font-size:0.7rem; color:var(--text-secondary); text-transform:uppercase;">Congestion Risk</span>
+                                    <div id="pred-crowd" style="font-size:0.9rem; margin-top:0.2rem;">-</div>
+                                </div>
+                                <div style="background:var(--bg-main); padding:0.85rem; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+                                    <span style="font-size:0.7rem; color:var(--text-secondary); text-transform:uppercase;">Confidence Score</span>
+                                    <div style="font-size:0.9rem; font-weight:700; color:var(--text-primary);" id="pred-confidence">-</div>
+                                </div>
+                                <div style="grid-column:span 2; background:var(--bg-main); padding:0.85rem; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+                                    <div style="font-size:0.75rem; color:var(--text-secondary); margin-bottom:0.25rem;">OPTIMAL VISIT RECOMMENDATION:</div>
+                                    <div style="font-size:0.88rem; font-weight:600; color:var(--crowd-low);" id="pred-rec-time">-</div>
+                                    <div style="font-size:0.78rem; color:var(--accent); margin-top:0.25rem;" id="pred-alt-attraction"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Comparison Chart Card -->
+                        <div class="dashboard-card" id="pred-comparison-card">
+                            <div class="card-header">
+                                <h3 class="card-title">📊 Historical Baseline vs Forecast Comparison</h3>
+                                <span style="font-size:0.75rem; color:var(--text-secondary);">Variance analysis</span>
+                            </div>
+                            <div style="height: 320px;">
+                                <canvas id="prediction-comparison-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================================
+                   6. SMART RECOMMENDATIONS VIEW
+                   ========================================================== -->
+                <section id="view-recommendations" class="view-section">
+                    <div class="dashboard-card" style="margin-bottom:1.5rem;">
+                        <div class="card-header" style="flex-wrap:wrap; gap:1rem;">
+                            <div>
+                                <h3 class="card-title">💡 Deterministic Congestion Diversion Engine</h3>
+                                <span style="font-size:0.75rem; color:var(--text-secondary);">Pairs high-density venues (> 75% capacity) with lower-crowd cultural alternatives</span>
+                            </div>
+                            <div style="display:flex; gap:0.75rem; align-items:center;">
+                                <select id="rec-city-select" class="form-control" onchange="window.TourPulseApp.renderRecommendations()">
+                                    <!-- Populated dynamically from Oracle -->
+                                </select>
+                                <select id="rec-crowd-pref" class="form-control" onchange="window.TourPulseApp.renderRecommendations()">
+                                    <option value="low" selected>Preference: Low Density / Peaceful</option>
+                                    <option value="moderate">Preference: Moderate Activity</option>
+                                    <option value="all">Show All Diversions</option>
+                                </select>
+                            </div>
+                        </div>
+                        <h4 id="rec-result-title" style="font-size:0.85rem; color:var(--text-secondary); margin:0.5rem 0 1rem;">Active Recommendations</h4>
+                        <div class="rec-list" id="recommendations-container">
+                            <!-- Populated dynamically with explainable reasons -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================================
+                   7. DATA INGESTION VIEW (SELECT -> PREVIEW -> COMMIT)
+                   ========================================================== -->
+                <section id="view-data-upload" class="view-section">
+                    <div class="dashboard-card" style="margin-bottom:1.5rem;">
+                        <div class="card-header">
+                            <h3 class="card-title">📤 Telemetry CSV Ingestion & Pre-Commit Validation</h3>
+                            <span style="font-size:0.75rem; color:var(--text-secondary);">Step-by-step validation, duplicate signature detection, and Oracle commit</span>
+                        </div>
+
+                        <!-- Step 1: Select CSV -->
+                        <div style="border: 2px dashed var(--border-color); border-radius: var(--radius-md); padding: 2rem; text-align: center; margin: 1rem 0;">
+                            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📁</div>
+                            <h4 style="font-size: 1rem; margin-bottom: 0.5rem;">Select Tourist Telemetry CSV File</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                                Expected columns: <code>tourist_code, attraction_name, city, timestamp, latitude, longitude, source, visit_duration</code>
+                            </p>
+                            <div style="display:flex; justify-content:center; gap:1rem; align-items:center;">
+                                <label class="btn-primary" style="cursor: pointer;">
+                                    Browse & Validate CSV
+                                    <input type="file" id="ingest-file-input" accept=".csv" style="display: none;" onchange="window.TourPulseApp.handleValidateFileSelected(event)">
+                                </label>
+                                <a href="/data/sample_checkins.csv" download class="btn-secondary">
+                                    ⬇️ Download Sample Template CSV
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Pre-Commit Summary & Preview -->
+                        <div id="ingest-preview-container" style="display:none; margin-top:1.5rem; border-top:1px solid var(--border-color); padding-top:1.25rem;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
+                                <div>
+                                    <h4 style="font-size:0.95rem; font-weight:700;">Pre-Commit Validation Summary (<span id="prev-file-name">-</span>)</h4>
+                                    <span style="font-size:0.75rem; color:var(--text-secondary);">Review row validation and duplicate statuses before committing into Oracle Database</span>
+                                </div>
+                                <div style="display:flex; gap:0.75rem; align-items:center;">
+                                    <label style="font-size:0.8rem; display:flex; align-items:center; gap:0.3rem;">
+                                        <input type="checkbox" id="chk-exclude-dups" checked> Exclude Exact Duplicates
+                                    </label>
+                                    <label style="font-size:0.8rem; display:flex; align-items:center; gap:0.3rem;">
+                                        <input type="checkbox" id="chk-exclude-potential"> Exclude Potential Duplicates
+                                    </label>
+                                    <button class="btn-primary" id="btn-commit-batch" onclick="window.TourPulseApp.commitCurrentBatch()">
+                                        ✓ Commit Verified Rows to Oracle Database
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Stat Pills -->
+                            <div style="display:grid; grid-template-columns:repeat(5, 1fr); gap:0.75rem; margin-bottom:1rem;">
+                                <div style="background:var(--bg-main); padding:0.6rem 0.8rem; border-radius:var(--radius-sm); border:1px solid var(--border-color);">
+                                    <span style="font-size:0.65rem; color:var(--text-secondary); text-transform:uppercase;">Total Ingested</span>
+                                    <div style="font-size:1.15rem; font-weight:800;" id="stat-prev-total">0</div>
+                                </div>
+                                <div style="background:var(--bg-main); padding:0.6rem 0.8rem; border-radius:var(--radius-sm); border:1px solid var(--border-color);">
+                                    <span style="font-size:0.65rem; color:var(--crowd-low); text-transform:uppercase;">Valid Records</span>
+                                    <div style="font-size:1.15rem; font-weight:800; color:var(--crowd-low);" id="stat-prev-valid">0</div>
+                                </div>
+                                <div style="background:var(--bg-main); padding:0.6rem 0.8rem; border-radius:var(--radius-sm); border:1px solid var(--border-color);">
+                                    <span style="font-size:0.65rem; color:var(--crowd-moderate); text-transform:uppercase;">Exact Duplicates</span>
+                                    <div style="font-size:1.15rem; font-weight:800; color:var(--crowd-moderate);" id="stat-prev-dup">0</div>
+                                </div>
+                                <div style="background:var(--bg-main); padding:0.6rem 0.8rem; border-radius:var(--radius-sm); border:1px solid var(--border-color);">
+                                    <span style="font-size:0.65rem; color:var(--accent); text-transform:uppercase;">Potential Dups</span>
+                                    <div style="font-size:1.15rem; font-weight:800; color:var(--accent);" id="stat-prev-pot">0</div>
+                                </div>
+                                <div style="background:var(--bg-main); padding:0.6rem 0.8rem; border-radius:var(--radius-sm); border:1px solid var(--border-color);">
+                                    <span style="font-size:0.65rem; color:var(--crowd-high); text-transform:uppercase;">Invalid Rows</span>
+                                    <div style="font-size:1.15rem; font-weight:800; color:var(--crowd-high);" id="stat-prev-invalid">0</div>
+                                </div>
+                            </div>
+
+                            <!-- Interactive Preview Table -->
+                            <div class="table-responsive" style="max-height:300px; overflow-y:auto;">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Row</th>
+                                            <th>Tourist</th>
+                                            <th>Attraction Name</th>
+                                            <th>City</th>
+                                            <th>Timestamp</th>
+                                            <th>Coords</th>
+                                            <th>Status</th>
+                                            <th>Notes / Reason</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ingest-preview-table-body">
+                                        <!-- Populated dynamically with status badges -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Success Confirmation Panel -->
+                        <div id="ingest-commit-success" style="display:none; background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.3); border-radius:var(--radius-md); padding:1rem; margin-top:1.25rem;">
+                            <h4 style="color:var(--crowd-low); margin-bottom:0.5rem;">✓ Upload Complete — Stored in Oracle Database</h4>
+                            <div style="font-size:0.82rem; line-height:1.6;" id="ingest-commit-summary">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ingestion History Audit Table -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">📜 Ingestion Audit History (Oracle DATASET_UPLOADS)</h3>
+                            <span style="font-size:0.75rem; color:var(--text-secondary);">Persistent audit log of all batch upload executions</span>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Upload ID</th>
+                                        <th>File Name</th>
+                                        <th>Upload Date</th>
+                                        <th>Total Rows</th>
+                                        <th>Valid</th>
+                                        <th>Invalid</th>
+                                        <th>Duplicates</th>
+                                        <th>Inserted</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ingest-history-table-body">
+                                    <!-- Populated dynamically from Oracle -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================================
+                   8. REPORTS & EXPORTS VIEW
+                   ========================================================== -->
+                <section id="view-reports" class="view-section">
+                    <div class="dashboard-card">
+                        <div class="card-header" style="flex-wrap:wrap; gap:1rem;">
+                            <div>
+                                <h3 class="card-title">📁 Executive Tourism Intelligence Report</h3>
+                                <span style="font-size:0.75rem; color:var(--text-secondary);">Download real ReportLab PDF, multi-sheet Excel (.xlsx), and filtered CSV</span>
+                            </div>
+                            <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                                <button class="btn-primary" onclick="window.TourPulseApp.downloadPDF()">
+                                    📑 Download Executive PDF
+                                </button>
+                                <button class="btn-secondary" onclick="window.TourPulseApp.downloadExcel()">
+                                    📊 Export Multi-Sheet Excel
+                                </button>
+                                <button class="btn-secondary" onclick="window.TourPulseApp.downloadCSV()">
+                                    📥 Export Filtered CSV
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Report Summary Card -->
+                        <div style="background:var(--bg-main); border:1px solid var(--border-color); border-radius:var(--radius-md); padding:1.5rem; margin-top:1rem;">
+                            <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:1rem; padding-bottom:1rem; border-bottom:1px solid var(--border-color);">
+                                <div>
+                                    <span style="font-size:0.75rem; color:var(--text-secondary);">Total Verified Visits</span>
+                                    <div style="font-size:1.4rem; font-weight:800;" id="rep-total-visits">-</div>
+                                </div>
+                                <div>
+                                    <span style="font-size:0.75rem; color:var(--text-secondary);">Monitored Locations</span>
+                                    <div style="font-size:1.4rem; font-weight:800;" id="rep-active-sites">-</div>
+                                </div>
+                                <div>
+                                    <span style="font-size:0.75rem; color:var(--text-secondary);">Highest Footfall Site</span>
+                                    <div style="font-size:1.2rem; font-weight:700; color:var(--accent);" id="rep-top-site">-</div>
+                                </div>
+                                <div>
+                                    <span style="font-size:0.75rem; color:var(--text-secondary);">Critical Peak Hour</span>
+                                    <div style="font-size:1.4rem; font-weight:800; color:var(--crowd-high);" id="rep-peak-slot">-</div>
+                                </div>
+                            </div>
+
+                            <div style="margin-top:1.25rem;">
+                                <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:0.5rem; color:var(--text-primary);">Strategic Resource Planning Recommendations</h4>
+                                <ul id="rep-planning-recs" style="font-size:0.85rem; color:var(--text-secondary); display:flex; flex-direction:column; gap:0.4rem; padding-left:1.25rem;">
+                                    <!-- Populated dynamically -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================================
+                   9. CLOUD & BIG DATA ARCHITECTURE VIEW
+                   ========================================================== -->
+                <section id="view-architecture" class="view-section">
+                    <div class="dashboard-card" style="margin-bottom:1.5rem;">
+                        <div class="card-header">
+                            <h3 class="card-title">☁️ End-to-End System Architecture (Cloud Analytics + Oracle Database)</h3>
+                            <span style="font-size:0.75rem; color:var(--text-secondary);">Architectural distinction: Oracle Database for operational data, BigQuery for cloud analytics</span>
+                        </div>
+                        
+                        <div style="background:var(--bg-main); border:1px solid var(--border-color); border-radius:var(--radius-md); padding:1.5rem; margin-top:1rem; font-family:monospace; font-size:0.8rem; line-height:1.8; color:var(--accent);">
+                            Tourist Data Sources (GPS Telemetry, Mobile Travel Apps, User Check-ins)<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;│<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;▼<br>
+                            Data Ingestion Layer (FastAPI REST Endpoints / CSV Batch Schema Validator)<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;├─────────────────────────────────────────────┐<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;▼                                             ▼<br>
+                            Google Cloud Storage (GCS)                     Oracle Database (Operational Warehouse)<br>
+                            Bucket: <code>gs://tourpulse-raw-telemetry/</code>           Tables: <code>CHECKINS</code>, <code>ATTRACTIONS</code>, <code>USERS</code><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;│                                             │<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;▼                                             ▼<br>
+                            Google Cloud Dataproc Cluster                  FastAPI Application Server (Python / Uvicorn)<br>
+                            PySpark MapReduce: <code>tourist_flow_job.py</code>          Connection Pooling: <code>oracledb.create_pool</code><br>
+                            [Map ➔ Shuffle/Sort ➔ Reduce]                  │<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;│                                             ▼<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;▼                                      Single Page Application (SPA Dashboard)<br>
+                            Google BigQuery Analytics Warehouse            Leaflet.js Geospatial Overlays, Chart.js<br>
+                            Dataset: <code>tourist_analytics</code><br>
+                            BigQuery ML: <code>ARIMA_PLUS</code> Forecaster
+                        </div>
+                    </div>
+
+                    <!-- Role Matrix -->
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">⚖️ Cloud Analytics vs Operational Database Architecture</h3>
+                            <span style="font-size:0.75rem; color:var(--text-secondary);">Clear academic distinction with zero fake cloud operations</span>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Component</th>
+                                        <th>Operational Layer (Oracle Database)</th>
+                                        <th>Cloud Big Data Layer (GCP Architecture)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Storage Engine</strong></td>
+                                        <td>Oracle Database (Tables: <code>CHECKINS</code>, <code>ATTRACTIONS</code>, <code>USERS</code>)</td>
+                                        <td>Google Cloud Storage (<code>gs://tourpulse-raw-telemetry/</code>)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Processing Mode</strong></td>
+                                        <td>SQL Aggregation & Local MapReduce Algorithms</td>
+                                        <td>Google Cloud Dataproc PySpark (<code>gcp/dataproc/tourist_flow_job.py</code>)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Analytics & Views</strong></td>
+                                        <td>Oracle Relational Queries & Capacity Indexes</td>
+                                        <td>Google BigQuery Partitioned Tables (<code>gcp/bigquery/schema.sql</code>)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Machine Learning</strong></td>
+                                        <td>Local Scikit-learn (<code>RandomForestRegressor</code>)</td>
+                                        <td>BigQuery ML (<code>ARIMA_PLUS</code> time series forecasting)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================================
+                   10. ACADEMIC PROJECT INFORMATION VIEW
+                   ========================================================== -->
+                <section id="view-project-info" class="view-section">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h3 class="card-title">🎓 Capstone Project Specification & Methodology</h3>
+                            <span style="font-size:0.75rem; color:var(--text-secondary);">Course: Cloud Computing & Big Data Analytics</span>
+                        </div>
+
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:1rem;">
+                            <div class="academic-card">
+                                <h4>📌 Project Metadata & Objectives</h4>
+                                <ul style="margin-top:0.5rem;">
+                                    <li><strong>Title:</strong> Cloud-Based Tourist Flow and Attraction Analytics</li>
+                                    <li><strong>Core Concept:</strong> Ingests high-velocity tourist movement telemetry, performs distributed MapReduce data cleaning, stores clean operational data in Oracle Database, and forecasts crowd demand.</li>
+                                    <li><strong>Primary Database:</strong> Oracle Database (managed via Oracle SQL Developer / Python <code>oracledb</code>).</li>
+                                    <li><strong>Cloud Analytics:</strong> Google Cloud Platform (GCS, Dataproc, BigQuery, BigQuery ML).</li>
+                                    <li><strong>Backend Framework:</strong> FastAPI, Python 3.10+, JWT Authentication, ReportLab.</li>
+                                </ul>
+                            </div>
+
+                            <div class="academic-card">
+                                <h4>🎯 Four Core Capstone Modules</h4>
+                                <ul style="margin-top:0.5rem;">
+                                    <li><strong>Module 1 — Data Collection & Ingestion:</strong> Ingests GPS device fixes, travel mobile application APIs, and user check-in feeds with strict schema validation.</li>
+                                    <li><strong>Module 2 — Data Processing & Cleaning:</strong> Filters geographic boundary outliers, detects duplicate telemetry signatures, and aggregates visit metrics.</li>
+                                    <li><strong>Module 3 — Tourist Flow & Attraction Analysis:</strong> Computes popularity rankings, peak arrival hours, 7x4 day-slot density heatmaps, and movement corridors.</li>
+                                    <li><strong>Module 4 — Prediction & Visualization:</strong> Machine learning crowd forecasting with automated load-balancing diversion recommendations to low-density sites.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================================
+                   11. SETTINGS & SYSTEM INFORMATION VIEW
+                   ========================================================== -->
+                <section id="view-settings" class="view-section">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem;">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3 class="card-title">⚙️ Technical System Information</h3>
+                            </div>
+                            <div style="display:flex; flex-direction:column; gap:0.75rem; font-size:0.85rem; margin-top:0.5rem;">
+                                <div style="display:flex; justify-content:space-between; padding:0.4rem 0; border-bottom:1px solid var(--border-color);">
+                                    <span>Application:</span>
+                                    <strong>TourPulse</strong>
+                                </div>
+                                <div style="display:flex; justify-content:space-between; padding:0.4rem 0; border-bottom:1px solid var(--border-color);">
+                                    <span>Database:</span>
+                                    <strong id="set-info-db-name">Oracle Database</strong>
+                                </div>
+                                <div style="display:flex; justify-content:space-between; padding:0.4rem 0; border-bottom:1px solid var(--border-color);">
+                                    <span>Database Status:</span>
+                                    <strong id="set-info-db-status" style="color:var(--crowd-high);">● Not Connected</strong>
+                                </div>
+                                <div style="display:flex; justify-content:space-between; padding:0.4rem 0; border-bottom:1px solid var(--border-color);">
+                                    <span>Backend Framework:</span>
+                                    <strong>FastAPI (Python)</strong>
+                                </div>
+                                <div style="display:flex; justify-content:space-between; padding:0.4rem 0; border-bottom:1px solid var(--border-color);">
+                                    <span>Processing Engine:</span>
+                                    <strong>Local / Dataproc PySpark Ready</strong>
+                                </div>
+                                <div style="display:flex; justify-content:space-between; padding:0.4rem 0; border-bottom:1px solid var(--border-color);">
+                                    <span>Analytics Engine:</span>
+                                    <strong>Oracle Analytics / BigQuery Parity</strong>
+                                </div>
+                                <div style="display:flex; justify-content:space-between; padding:0.4rem 0; border-bottom:1px solid var(--border-color);">
+                                    <span>Forecasting:</span>
+                                    <strong>Scikit-learn / BigQuery ML Ready</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3 class="card-title">🔧 Oracle Database Setup Guide</h3>
+                            </div>
+                            <div style="font-size:0.82rem; color:var(--text-secondary); line-height:1.6;">
+                                <p style="margin-bottom:0.5rem;">To connect your local Oracle Database in Oracle SQL Developer:</p>
+                                <ol style="padding-left:1.25rem; display:flex; flex-direction:column; gap:0.35rem;">
+                                    <li>Connect as <code>SYSTEM</code> in SQL Developer and create dedicated schema:<br>
+                                        <code>CREATE USER TOURPULSE IDENTIFIED BY your_password;</code><br>
+                                        <code>GRANT CONNECT, RESOURCE, CREATE VIEW, UNLIMITED TABLESPACE TO TOURPULSE;</code>
+                                    </li>
+                                    <li>Reconnect as <code>TOURPULSE</code> and run:
+                                        <code>database/oracle_schema.sql</code> and <code>database/oracle_seed.sql</code>.
+                                    </li>
+                                    <li>Configure <code>.env</code> file:<br>
+                                        <code>ORACLE_USER=TOURPULSE</code><br>
+                                        <code>ORACLE_PASSWORD=your_password</code><br>
+                                        <code>ORACLE_HOST=localhost</code><br>
+                                        <code>ORACLE_PORT=1521</code><br>
+                                        <code>ORACLE_SERVICE_NAME=XE</code>
+                                    </li>
+                                    <li>Restart FastAPI server: <code>python backend/main.py</code>.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- ==========================================================================
+       MODAL 1: AUTHENTICATION & QUICK ROLE PICKER
+       ========================================================================== -->
+    <div id="modal-auth" class="modal-overlay" style="display:none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 style="font-size:1.15rem; font-weight:700;">Sign In to TourPulse</h3>
+                <button class="modal-close-btn" onclick="window.TourPulseApp.closeModal('modal-auth')">✕</button>
+            </div>
+            
+            <form onsubmit="window.TourPulseApp.handleLoginSubmit(event)" style="display:flex; flex-direction:column; gap:1rem;">
+                <div class="form-group">
+                    <label style="font-size:0.8rem; font-weight:600; display:block; margin-bottom:0.35rem;">Email Address</label>
+                    <input type="text" id="login-email" class="form-control" style="width:100%;" placeholder="admin@tourpulse.com" required>
+                </div>
+                <div class="form-group">
+                    <label style="font-size:0.8rem; font-weight:600; display:block; margin-bottom:0.35rem;">Password</label>
+                    <input type="password" id="login-password" class="form-control" style="width:100%;" placeholder="admin123" required>
+                </div>
+
+                <!-- Quick-Fill Role Buttons for Evaluation / Viva -->
+                <div style="background:var(--bg-main); border:1px solid var(--border-color); border-radius:var(--radius-md); padding:0.75rem; margin-top:0.25rem;">
+                    <span style="font-size:0.7rem; color:var(--text-secondary); text-transform:uppercase; font-weight:700; display:block; margin-bottom:0.4rem;">
+                        ⚡ Quick-Fill Demo Credentials
+                    </span>
+                    <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                        <button type="button" class="btn-secondary" style="font-size:0.72rem; padding:0.25rem 0.5rem;" onclick="window.TourPulseApp.fillLogin('admin@tourpulse.com', 'admin123')">
+                            Admin (Full Access)
+                        </button>
+                        <button type="button" class="btn-secondary" style="font-size:0.72rem; padding:0.25rem 0.5rem;" onclick="window.TourPulseApp.fillLogin('analyst@tourpulse.com', 'analyst123')">
+                            Analyst
+                        </button>
+                        <button type="button" class="btn-secondary" style="font-size:0.72rem; padding:0.25rem 0.5rem;" onclick="window.TourPulseApp.fillLogin('tourist@tourpulse.com', 'tourist123')">
+                            Tourist
+                        </button>
+                    </div>
+                </div>
+
+                <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:0.5rem;">
+                    <button type="button" class="btn-secondary" onclick="window.TourPulseApp.closeModal('modal-auth')">Cancel</button>
+                    <button type="submit" class="btn-primary">Authenticate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+       MODAL 2: ADD NEW ATTRACTION (ADMIN ONLY)
+       ========================================================================== -->
+    <div id="modal-add-attraction" class="modal-overlay" style="display:none;">
+        <div class="modal-card" style="max-width: 520px;">
+            <div class="modal-header">
+                <h3 style="font-size:1.15rem; font-weight:700;">Add New Destination to Oracle</h3>
+                <button class="modal-close-btn" onclick="window.TourPulseApp.closeModal('modal-add-attraction')">✕</button>
+            </div>
+            
+            <form onsubmit="window.TourPulseApp.handleAddAttractionSubmit(event)" style="display:flex; flex-direction:column; gap:0.85rem;">
+                <div style="display:grid; grid-template-columns:1.5fr 1fr; gap:0.75rem;">
+                    <div class="form-group">
+                        <label style="font-size:0.75rem; font-weight:600; display:block; margin-bottom:0.25rem;">Attraction Name</label>
+                        <input type="text" id="attr-modal-name" class="form-control" style="width:100%;" placeholder="e.g. Marina Lighthouse" required>
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size:0.75rem; font-weight:600; display:block; margin-bottom:0.25rem;">City</label>
+                        <select id="attr-modal-city" class="form-control" style="width:100%;" required>
+                            <!-- Populated dynamically from Oracle -->
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+                    <div class="form-group">
+                        <label style="font-size:0.75rem; font-weight:600; display:block; margin-bottom:0.25rem;">Category</label>
+                        <select id="attr-modal-cat" class="form-control" style="width:100%;">
+                            <option value="Historical">Historical</option>
+                            <option value="Beach">Beach</option>
+                            <option value="Park">Park / Nature</option>
+                            <option value="Religious">Religious</option>
+                            <option value="Monument">Monument</option>
+                            <option value="Museum">Museum</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size:0.75rem; font-weight:600; display:block; margin-bottom:0.25rem;">Hourly Capacity</label>
+                        <input type="number" id="attr-modal-cap" class="form-control" style="width:100%;" value="1000" min="50">
+                    </div>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+                    <div class="form-group">
+                        <label style="font-size:0.75rem; font-weight:600; display:block; margin-bottom:0.25rem;">Latitude (-90 to 90)</label>
+                        <input type="number" step="0.0001" id="attr-modal-lat" class="form-control" style="width:100%;" placeholder="13.0475" required>
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size:0.75rem; font-weight:600; display:block; margin-bottom:0.25rem;">Longitude (-180 to 180)</label>
+                        <input type="number" step="0.0001" id="attr-modal-lng" class="form-control" style="width:100%;" placeholder="80.2824" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label style="font-size:0.75rem; font-weight:600; display:block; margin-bottom:0.25rem;">Description</label>
+                    <textarea id="attr-modal-desc" class="form-control" style="width:100%; height:60px;" placeholder="Optional landmark notes..."></textarea>
+                </div>
+
+                <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:0.5rem;">
+                    <button type="button" class="btn-secondary" onclick="window.TourPulseApp.closeModal('modal-add-attraction')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save to Oracle Database</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+       MODAL 3: EDIT ATTRACTION (ADMIN ONLY)
+       ========================================================================== -->
+    <div id="modal-edit-attraction" class="modal-overlay" style="display:none;">
+        <div class="modal-card" style="max-width: 520px;">
+            <div class="modal-header">
+                <h3 style="font-size:1.15rem; font-weight:700;">Edit Destination in Oracle</h3>
+                <button class="modal-close-btn" onclick="window.TourPulseApp.closeModal('modal-edit-attraction')">✕</button>
+            </div>
+            
+            <form onsubmit="window.TourPulseApp.handleEditAttractionSubmit(event)" style="display:flex; flex-direction:column; gap:0.85rem;">
+                <input type="hidden" id="edit-attr-id">
+                <div style="display:grid; grid-template-columns:1.5fr 1fr; gap:0.75rem;">
+                    <div class="form-group">
+                        <label style="font-size:0.75rem; font-weight:600; display:block; margin-bottom:0.25rem;">Attraction Name</label>
+                        <input type="text" id="edit-attr-name" class="form-control" style="width:100%;" required>
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size:0.75rem; font-weight:600; display:block; margin-bottom:0.25rem;">City</label>
+                        <select id="edit-attr-city" class="form-control" style="width:100%;" required>
+                            <!-- Populated dynamically from Oracle -->
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+                    <div class="form-group">
+                        <label style="font-size:0.75rem; font-weight:600; display:block; margin-bottom:0.25rem;">Category</label>
+                        <select id="edit-attr-cat" class="form-control" style="width:100%;">
+                            <option value="Historical">Historical</option>
+                            <option value="Beach">Beach</option>
+                            <option value="Park">Park / Nature</option>
+                            <option value="Religious">Religious</option>
+                            <option value="Monument">Monument</option>
+                            <option value="Museum">Museum</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size:0.75rem; font-weight:600; display:block; margin-bottom:0.25rem;">Hourly Capacity</label>
+                        <input type="number" id="edit-attr-cap" class="form-control" style="width:100%;" min="10" required>
+                    </div>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+                    <div class="form-group">
+                        <label style="font-size:0.75rem; font-weight:600; display:block; margin-bottom:0.25rem;">Latitude (-90 to 90)</label>
+                        <input type="number" step="0.0001" id="edit-attr-lat" class="form-control" style="width:100%;" required>
+                    </div>
+                    <div class="form-group">
+                        <label style="font-size:0.75rem; font-weight:600; display:block; margin-bottom:0.25rem;">Longitude (-180 to 180)</label>
+                        <input type="number" step="0.0001" id="edit-attr-lng" class="form-control" style="width:100%;" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label style="font-size:0.75rem; font-weight:600; display:block; margin-bottom:0.25rem;">Description</label>
+                    <textarea id="edit-attr-desc" class="form-control" style="width:100%; height:60px;"></textarea>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.5rem;">
+                    <button type="button" class="btn-secondary" style="color:#ef4444; border-color:rgba(239,68,68,0.4);" onclick="window.TourPulseApp.handleDeleteFromModal()">🗑️ Delete</button>
+                    <div style="display:flex; gap:0.75rem;">
+                        <button type="button" class="btn-secondary" onclick="window.TourPulseApp.closeModal('modal-edit-attraction')">Cancel</button>
+                        <button type="submit" class="btn-primary">Update in Oracle Database</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Slide-in Toast notifications mount point -->
+    <div class="toast-container" id="toast-alerts-mount"></div>
+
+    <!-- Scripts (Strict Loading Order) -->
+    <script src="js/api.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

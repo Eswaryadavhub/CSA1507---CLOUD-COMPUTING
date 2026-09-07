@@ -1,0 +1,49 @@
+# Environment variables & secrets (CRITICAL: NEVER COMMIT)
+.env
+*.env
+*.key
+*.pem
+*.json_credentials
+service_account*.json
+gcp_credentials*.json
+
+# Python bytecode & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Database files (Oracle connects via network, avoid committing local temp files)
+*.db
+*.sqlite
+*.sqlite3
+tourpulse.db
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs & temp report artifacts
+*.log
+scratch/
+temp/

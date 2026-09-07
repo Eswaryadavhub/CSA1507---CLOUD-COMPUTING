@@ -319,6 +319,7 @@ window.TourPulseApp = (function() {
     // ----------------- View 1: Overview -----------------
     async function renderOverview(filters) {
         try {
+            const kpis = await window.TourPulseAPI.getKPIs(filters);
             const elTotal = document.getElementById("kpi-total-visits");
             if (elTotal) elTotal.innerText = kpis.total_visits != null ? kpis.total_visits.toLocaleString() : "0";
             
@@ -334,7 +335,7 @@ window.TourPulseApp = (function() {
             const elPeak = document.getElementById("kpi-peak-hour");
             if (elPeak) elPeak.innerText = kpis.peak_visiting_hour || "N/A";
             
-            const elDailyAvg = document.getElementById("kpi-daily-average") || document.getElementById("kpi-predicted-visitors");
+            const elDailyAvg = document.getElementById("kpi-predicted-visitors") || document.getElementById("kpi-daily-average");
             if (elDailyAvg) elDailyAvg.innerText = kpis.daily_average_visitors != null ? kpis.daily_average_visitors.toLocaleString() : "-";
             
             const crowdWarningEl = document.getElementById("kpi-high-crowd-warning");
